@@ -1,0 +1,18 @@
+extern const GeoLayout pik_helm_metal_Metal_Cap_State_Switch_opt1[];
+extern const GeoLayout pik_helm_metal_Metal_Cap_State_Switch_opt2[];
+extern const GeoLayout pik_helm_metal_Metal_Cap_State_Switch_opt3[];
+extern const GeoLayout pik_helm_metal_geo[];
+extern Lights1 pik_helm_metal_Metal__METAL__lights;
+extern u8 pik_helm_metal_bullymetal_ci8[];
+extern u8 pik_helm_metal_bullymetal_pal_rgba16[];
+extern u8 pik_helm_metal_Metal_Shade_rgba16_rgba16[];
+extern u8 pik_helm_metal_Metal_Light_rgba16_rgba16[];
+extern Vtx pik_helm_metal_Metal_Cap_DL_mesh_layer_1_vtx_0[185];
+extern Gfx pik_helm_metal_Metal_Cap_DL_mesh_layer_1_tri_0[];
+extern Gfx mat_pik_helm_metal_Metal_Env_Map_001[];
+extern Gfx mat_revert_pik_helm_metal_Metal_Env_Map_001[];
+extern Gfx mat_pik_helm_metal_Metal__METAL_[];
+extern Gfx mat_revert_pik_helm_metal_Metal__METAL_[];
+extern Gfx pik_helm_metal_Metal_Cap_DL_mesh_layer_1[];
+extern Gfx pik_helm_metal_Metal_Cap_DL_mesh_layer_1_mat_override_Metal__METAL__0[];
+extern Gfx pik_helm_metal_material_revert_render_settings[];
