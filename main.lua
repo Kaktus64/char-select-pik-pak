@@ -374,24 +374,54 @@ local CAPTABLE_PIK_PAK = {
     metalWing = smlua_model_util_get_id("pik_helm_wing_metal_geo")
 }
 
-local HM_PIK_PAK = {
-    label = {
-        left = get_texture_info("PikPakHMLeft"),
-        right = get_texture_info("PikPakHMRight"),
-    },
-    pie = {
-        [1] = get_texture_info("PikPakHM8"),
-        [2] = get_texture_info("PikPakHM7"),
-        [3] = get_texture_info("PikPakHM6"),
-        [4] = get_texture_info("PikPakHM5"),
-        [5] = get_texture_info("PikPakHM4"),
-        [6] = get_texture_info("PikPakHM3"),
-        [7] = get_texture_info("PikPakHM2"),
-        [8] = get_texture_info("PikPakHM1"),
-    }
-}
+local TEX_PIK_HEALTH_BUBBLE = get_texture_info("pik_health_bubble")
+local TEX_PIK_HEALTH_BACK = get_texture_info("pik_health_back")
+local TEX_PIK_HEALTH_FILL = get_texture_info("pik_health_fill")
 
-local CSloaded = false
+local function health_render_pikmin(localIndex, health, prevX, prevY, prevScaleW, prevScaleH, x, y, scaleW, scaleH)
+    local healthScale = health >= 0x100 and math.clamp((health - 0x80)/0x800, 0, 1) or 0
+    local prevScaleW = prevScaleW/64
+    local prevScaleH = prevScaleH/64
+    local scaleW = scaleW/64
+    local scaleH = scaleH/64
+
+    local djuiFilter = djui_hud_get_filter()
+    djui_hud_set_filter(FILTER_LINEAR)
+
+    local djuiColor = djui_hud_get_color()
+    local healthColor = {r = 0, g = 255, b = 0}
+    if healthScale <= 0.25 then
+        healthColor = {r = 255, g = 0, b = 0}
+    elseif healthScale <= 0.5 then
+        healthColor = {r = 255, g = 255, b = 0}
+    end
+
+    local screenWidth = djui_hud_get_screen_width()
+    local screenHeight = djui_hud_get_screen_height()
+
+    djui_hud_set_color(0, 0, 0, 100)
+    djui_hud_render_texture_interpolated(TEX_PIK_HEALTH_BACK, prevX, prevY, prevScaleW, prevScaleH, x, y, scaleW, scaleH)
+
+    djui_hud_set_color(healthColor.r*(djuiColor.r/255), healthColor.g*(djuiColor.g/255), healthColor.b*(djuiColor.b/255), 255)
+    if healthScale > 0.5 then
+        djui_hud_set_scissor((prevX + 32)/screenWidth*320*prevScaleW, -prevY/screenHeight*240*prevScaleH, (prevX + 64)/screenWidth*320*prevScaleW, (prevY + 64)/screenHeight*240*prevScaleH)
+        djui_hud_set_rotation(healthScale*0x10000 + 0x8000, 1, 0.5)
+        djui_hud_render_texture_interpolated(TEX_PIK_HEALTH_FILL, prevX, prevY, prevScaleW, prevScaleH, x, y, scaleW, scaleH)
+        djui_hud_set_rotation(0, 0, 0)
+        djui_hud_reset_scissor()
+    else
+        djui_hud_set_scissor(prevX/screenWidth*320*prevScaleW, -prevY/screenHeight*240*prevScaleH, (prevX + 32)/screenWidth*320*prevScaleW, (prevY + 64)/screenHeight*240*prevScaleH)
+        djui_hud_set_rotation(healthScale*0x10000 + 0x8000, 1, 0.5)
+    end
+    djui_hud_render_texture_interpolated(TEX_PIK_HEALTH_FILL, prevX, prevY, prevScaleW, prevScaleH, x, y, scaleW, scaleH)
+    djui_hud_set_rotation(0, 0, 0)
+    djui_hud_reset_scissor()
+
+    djui_hud_set_color(djuiColor.r, djuiColor.g, djuiColor.b, 255)
+    djui_hud_render_texture_interpolated(TEX_PIK_HEALTH_BUBBLE, prevX, prevY, prevScaleW, prevScaleH, x, y, scaleW, scaleH)
+
+    djui_hud_set_filter(djuiFilter)
+end
 
 if _G.charSelectExists then
     CT_OLIMAR_PIK = _G.charSelect.character_add("Olimar", {"A hard worker and family man who often sacrifices his time off to support his family. He also seems to be a magnet for bad luck."}, "Kaktus64", {r = 245, g = 35, b = 0}, E_MODEL_OLIMAR_PIK, CT_MARIO, OLIMAR_PIK_ICON, 0.9)
@@ -412,6 +442,7 @@ local function on_character_select_load()
         _G.charSelect.character_add_palette_preset(E_MODEL_OLIMAR_PIK, PALETTE_FIDDLEBERT, "Removed")
         _G.charSelect.character_add_caps(E_MODEL_OLIMAR_PIK, CAPTABLE_PIK_PAK)
         _G.charSelect.character_set_category(CT_OLIMAR_PIK, "Pik-Pak", true)
+        _G.charSelect.character_add_health_meter(CT_OLIMAR_PIK, health_render_pikmin)
 
         _G.charSelect.character_add_voice(E_MODEL_LOUIE_PIK, VOICETABLE_LOUIE_PIK)
         _G.charSelect.character_add_animations(E_MODEL_LOUIE_PIK, ANIMTABLE_LOUIE_PIK)
@@ -419,6 +450,7 @@ local function on_character_select_load()
         _G.charSelect.character_add_palette_preset(E_MODEL_LOUIE_PIK, PALETTE_LOUIE_GRANDMA, "Grandma")
         _G.charSelect.character_add_caps(E_MODEL_LOUIE_PIK, CAPTABLE_PIK_PAK)
         _G.charSelect.character_set_category(CT_LOUIE_PIK, "Pik-Pak", true)
+        _G.charSelect.character_add_health_meter(CT_LOUIE_PIK, health_render_pikmin)
 
         _G.charSelect.character_add_voice(E_MODEL_CHACHO_PIK, VOICETABLE_CHACHO_PIK)
         _G.charSelect.character_add_animations(E_MODEL_CHACHO_PIK, ANIMTABLE_CHACHO_PIK)
@@ -427,6 +459,7 @@ local function on_character_select_load()
         _G.charSelect.character_add_palette_preset(E_MODEL_CHACHO_PIK, PALETTE_CHACHO_WIFE, "Wife")
         _G.charSelect.character_add_caps(E_MODEL_CHACHO_PIK, CAPTABLE_PIK_PAK)
         _G.charSelect.character_set_category(CT_CHACHO_PIK, "Pik-Pak")
+        _G.charSelect.character_add_health_meter(CT_CHACHO_PIK, health_render_pikmin)
         
         _G.charSelect.character_add_voice(E_MODEL_ALPH_PIK, VOICETABLE_ALPH_PIK)
         _G.charSelect.character_add_animations(E_MODEL_ALPH_PIK, ANIMTABLE_ALPH_PIK)
@@ -436,11 +469,13 @@ local function on_character_select_load()
         _G.charSelect.character_add_palette_preset(E_MODEL_ALPH_PIK, PALETTE_ALPH_ALT3, "Red")
         _G.charSelect.character_add_caps(E_MODEL_ALPH_PIK, CAPTABLE_PIK_PAK)
         _G.charSelect.character_set_category(CT_ALPH_PIK, "Pik-Pak")
+        _G.charSelect.character_add_health_meter(CT_ALPH_PIK, health_render_pikmin)
 
         _G.charSelect.character_add_voice(E_MODEL_BRITTANY_PIK, VOICETABLE_NONE_PIK)
         _G.charSelect.character_add_animations(E_MODEL_BRITTANY_PIK, ANIMTABLE_ALPH_PIK)
         _G.charSelect.character_add_palette_preset(E_MODEL_BRITTANY_PIK, PALETTE_BRITTANY_PIK)
         _G.charSelect.character_set_category(CT_BRITTANY_PIK, "Pik-Pak")
+        _G.charSelect.character_add_health_meter(CT_BRITTANY_PIK, health_render_pikmin)
 
         local MOD_NAME = "Pik-Pak"
         _G.charSelect.credit_add(MOD_NAME, "Kaktus64", "Modeling & Rigging")
