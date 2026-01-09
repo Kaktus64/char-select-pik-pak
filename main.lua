@@ -386,7 +386,7 @@ local function health_render_pikmin(localIndex, health, prevX, prevY, prevScaleW
     local scaleH = scaleH/64
 
     local djuiFilter = djui_hud_get_filter()
-    djui_hud_set_filter(FILTER_LINEAR)
+    djui_hud_set_filter(FILTER_NEAREST)
 
     local djuiColor = djui_hud_get_color()
     local healthColor = {r = 0, g = 255, b = 0}
