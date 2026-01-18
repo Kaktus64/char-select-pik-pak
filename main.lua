@@ -154,7 +154,16 @@ local VOICETABLE_ALPH_PIK = {
 }
 
 local VOICETABLE_NONE_PIK = {
-    nil
+    [CHAR_SOUND_PUNCH_HOO] = 'punch.mp3',
+    [CHAR_SOUND_PUNCH_WAH] = 'punchair.mp3',
+    [CHAR_SOUND_PUNCH_YAH] = 'punch.mp3',
+    [CHAR_SOUND_DOH] = 'whistleloop.mp3',
+    [CHAR_SOUND_HAHA] = 'dismiss1.mp3',
+    [CHAR_SOUND_HAHA_2] = 'dismiss1.mp3',
+    [CHAR_SOUND_ON_FIRE] = 'whistle.mp3',
+    [CHAR_SOUND_UH] = 'whistleloop.mp3',
+    [CHAR_SOUND_OOOF] = 'whistleloop.mp3',
+    [CHAR_SOUND_OOOF2] = 'whistleloop.mp3',
 }
 
 local ANIMTABLE_OLIMAR_PIK = {
