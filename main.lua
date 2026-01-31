@@ -20,6 +20,8 @@ local E_MODEL_ALPH_PIK = smlua_model_util_get_id("alph_pik_geo")
 local ALPH_PIK_ICON = get_texture_info("alph_pik_icon")
 local E_MODEL_BRITTANY_PIK = smlua_model_util_get_id("brittany_pik_geo")
 local BRITTANY_PIK_ICON = get_texture_info("brit_pik_icon")
+local E_MODEL_CHARLIE_PIK = smlua_model_util_get_id("charlie_pik_geo")
+local CHARLIE_PIK_ICON = get_texture_info("charlie_pik_icon")
 
 local VOICETABLE_OLIMAR_PIK = {
     [CHAR_SOUND_ATTACKED] = 'ogasp6.mp3',
@@ -367,6 +369,18 @@ local PALETTE_BRITTANY_PIK = {
 	[EMBLEM] = "FF6FF3"
 }
 
+local PALETTE_CHARLIE_PIK = {
+
+    [PANTS]  = "31BB00",
+    [SHIRT]  = "ffffff",
+    [GLOVES] = "31BB00",
+    [SHOES]  = "31BB00",
+    [HAIR]   = "644C3E",
+    [SKIN]   = "f19e78",
+    [CAP]    = "D58768",
+	[EMBLEM] = "2FFF00"
+}
+
 local CAPTABLE_PIK_PAK = {
     normal = smlua_model_util_get_id("pik_helm_geo"),
     wing = smlua_model_util_get_id("pik_helm_wing_geo"),
@@ -429,7 +443,7 @@ if _G.charSelectExists then
     CT_CHACHO_PIK = _G.charSelect.character_add("The President", {"The president of Hocotate Freight. He loves money and works his employees hard, but he somehow has a hard to dislike personality."}, "Kaktus64", {r = 255, g = 230, b = 21}, E_MODEL_CHACHO_PIK, CT_WARIO, CHACHO_PIK_ICON, 0.95)
     CT_ALPH_PIK = _G.charSelect.character_add("Alph", {"Alph is the young engineer of the S.S. Drake. An honest fellow with a positive attitude, Alph happens to be the crew member with the most common sense."}, "Kaktus64", {r = 67, g = 171, b = 248}, E_MODEL_ALPH_PIK, CT_TOAD, ALPH_PIK_ICON, 0.9)
     CT_BRITTANY_PIK = _G.charSelect.character_add("Brittany", {"Brittany is the botanist of the S.S. Drake. She is mostly a caring and friendly individual, but is fairly easy to tick off."}, "Kaktus64", {r = 230, g = 100, b = 219}, E_MODEL_BRITTANY_PIK, CT_LUIGI, BRITTANY_PIK_ICON)
-    CT_CHARLIE_PIK = _G.charSelect.character_add("Charlie", {"Charlie is the captain of the S.S. Drake. He's a very level-headed person, who is very caring about his crew and his ship."}, "Kaktus64", {r = 22, g = 148, b = 44}, E_MODEL_MARIO, CT_WARIO, nil)
+    CT_CHARLIE_PIK = _G.charSelect.character_add("Charlie", {"Charlie is the captain of the S.S. Drake. He's a very level-headed person, who is very caring about his crew and his ship."}, "Kaktus64", {r = 22, g = 148, b = 44}, E_MODEL_CHARLIE_PIK, CT_WARIO, CHARLIE_PIK_ICON)
 end
 
 local function on_character_select_load()
@@ -477,6 +491,12 @@ local function on_character_select_load()
         _G.charSelect.character_set_category(CT_BRITTANY_PIK, "Pik-Pak")
         _G.charSelect.character_add_health_meter(CT_BRITTANY_PIK, health_render_pikmin)
 
+        _G.charSelect.character_add_voice(E_MODEL_CHARLIE_PIK, VOICETABLE_NONE_PIK)
+        _G.charSelect.character_add_animations(E_MODEL_CHARLIE_PIK, ANIMTABLE_ALPH_PIK)
+        _G.charSelect.character_add_palette_preset(E_MODEL_CHARLIE_PIK, PALETTE_CHARLIE_PIK, "Charlie")
+        _G.charSelect.character_set_category(CT_BRITTANY_PIK, "Pik-Pak")
+        _G.charSelect.character_add_health_meter(CT_CHARLIE_PIK, health_render_pikmin)
+
         local MOD_NAME = "Pik-Pak"
         _G.charSelect.credit_add(MOD_NAME, "Kaktus64", "Modeling & Rigging")
         _G.charSelect.credit_add(MOD_NAME, "SwagSkeleton95", "Voiceline Collecting")
@@ -500,6 +520,10 @@ local function olimar_torso_tilt_fix(m)
         m.marioBodyState.torsoAngle.z = 0
     end
     if _G.charSelect.character_get_current_number() == CT_BRITTANY_PIK and m.action == ACT_WALKING then
+        m.marioBodyState.torsoAngle.x = 0
+        m.marioBodyState.torsoAngle.z = 0
+    end
+    if _G.charSelect.character_get_current_number() == CT_CHARLIE_PIK and m.action == ACT_WALKING then
         m.marioBodyState.torsoAngle.x = 0
         m.marioBodyState.torsoAngle.z = 0
     end
@@ -531,6 +555,9 @@ local function olimar_torso_tilt_fix(m)
         m.marioBodyState.handState = MARIO_HAND_FISTS
     end
     if _G.charSelect.character_get_current_number() == CT_BRITTANY_PIK and m.marioBodyState.handState == MARIO_HAND_HOLDING_WING_CAP then
+        m.marioBodyState.handState = MARIO_HAND_FISTS
+    end
+    if _G.charSelect.character_get_current_number() == CT_CHARLIE_PIK and m.marioBodyState.handState == MARIO_HAND_HOLDING_WING_CAP then
         m.marioBodyState.handState = MARIO_HAND_FISTS
     end
 end
