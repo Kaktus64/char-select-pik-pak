@@ -258,6 +258,18 @@ local PALETTE_FIDDLEBERT = {
 	[EMBLEM] = "7be64e"
 }
 
+local PALETTE_OLIMAR_BULBORB = {
+
+    [PANTS]  = "ffffff",
+    [SHIRT]  = "ca4036",
+    [GLOVES] = "ffffff",
+    [SHOES]  = "ffffff",
+    [HAIR]   = "632110",
+    [SKIN]   = "eab070",
+    [CAP]    = "d6844a",
+	[EMBLEM] = "FF0009"
+}
+
 local PALETTE_LOUIE_PIK = {
 
     [PANTS]  = "0000FF",
@@ -378,6 +390,30 @@ local PALETTE_BRITTANY_PIK = {
 	[EMBLEM] = "FF6FF3"
 }
 
+local PALETTE_BRITTANY_ALPH = {
+
+    [PANTS]  = "3484BF",
+    [SHIRT]  = "d0ceff",
+    [GLOVES] = "3484BF",
+    [SHOES]  = "3484BF",
+    [HAIR]   = "3484BF",
+    [SKIN]   = "f19e78",
+    [CAP]    = "3484BF",
+	[EMBLEM] = "45B0FF"
+}
+
+local PALETTE_BRITTANY_CHARLIE = {
+
+    [PANTS]  = "349b4b",
+    [SHIRT]  = "d5ffd6",
+    [GLOVES] = "349b4b",
+    [SHOES]  = "349b4b",
+    [HAIR]   = "644c3e",
+    [SKIN]   = "f19e78",
+    [CAP]    = "349b4b",
+	[EMBLEM] = "18e947"
+}
+
 local PALETTE_CHARLIE_PIK = {
 
     [PANTS]  = "31BB00",
@@ -463,6 +499,7 @@ local function on_character_select_load()
         _G.charSelect.character_add_palette_preset(E_MODEL_OLIMAR_PIK, PALETTE_OLIMAR_ALT2, "Green")
         _G.charSelect.character_add_palette_preset(E_MODEL_OLIMAR_PIK, PALETTE_OLIMAR_ALT3, "Gray")
         _G.charSelect.character_add_palette_preset(E_MODEL_OLIMAR_PIK, PALETTE_FIDDLEBERT, "Removed")
+        _G.charSelect.character_add_palette_preset(E_MODEL_OLIMAR_PIK, PALETTE_OLIMAR_BULBORB, "Bulborb")
         _G.charSelect.character_add_caps(E_MODEL_OLIMAR_PIK, CAPTABLE_PIK_PAK)
         _G.charSelect.character_set_category(CT_OLIMAR_PIK, "Pik-Pak", true)
         _G.charSelect.character_add_health_meter(CT_OLIMAR_PIK, health_render_pikmin)
@@ -497,13 +534,17 @@ local function on_character_select_load()
         _G.charSelect.character_add_voice(E_MODEL_BRITTANY_PIK, VOICETABLE_NONE_PIK)
         _G.charSelect.character_add_animations(E_MODEL_BRITTANY_PIK, ANIMTABLE_ALPH_PIK)
         _G.charSelect.character_add_palette_preset(E_MODEL_BRITTANY_PIK, PALETTE_BRITTANY_PIK)
+        _G.charSelect.character_add_palette_preset(E_MODEL_BRITTANY_PIK, PALETTE_BRITTANY_ALPH, "Blue")
+        _G.charSelect.character_add_palette_preset(E_MODEL_BRITTANY_PIK, PALETTE_BRITTANY_CHARLIE, "Green")
         _G.charSelect.character_set_category(CT_BRITTANY_PIK, "Pik-Pak")
         _G.charSelect.character_add_health_meter(CT_BRITTANY_PIK, health_render_pikmin)
 
         _G.charSelect.character_add_voice(E_MODEL_CHARLIE_PIK, VOICETABLE_NONE_PIK)
         _G.charSelect.character_add_animations(E_MODEL_CHARLIE_PIK, ANIMTABLE_ALPH_PIK)
         _G.charSelect.character_add_palette_preset(E_MODEL_CHARLIE_PIK, PALETTE_CHARLIE_PIK, "Charlie")
-        _G.charSelect.character_set_category(CT_BRITTANY_PIK, "Pik-Pak")
+        _G.charSelect.character_add_palette_preset(E_MODEL_CHARLIE_PIK, PALETTE_BRITTANY_ALPH, "Blue")
+        _G.charSelect.character_add_palette_preset(E_MODEL_CHARLIE_PIK, PALETTE_ALPH_ALT2, "Pink")
+        _G.charSelect.character_set_category(CT_CHARLIE_PIK, "Pik-Pak")
         _G.charSelect.character_add_health_meter(CT_CHARLIE_PIK, health_render_pikmin)
 
         local MOD_NAME = "Pik-Pak"
